@@ -76,30 +76,7 @@ class AuthController extends Controller
         return view('pedidos', compact('pedidos'));
     }
 
-    // Guardar un nuevo pedido
-    // Guardar un nuevo pedido
-public function storePedido(Request $request)
-{
-    $request->validate([
-        'tipo_alfajor' => 'required|string|max:100',
-        'cantidad' => 'required|integer|min:1',
-    ]);
-
-    // Guardamos el pedido y lo guardamos en una variable
-    $pedido = Pedido::create([
-            'user_id' => Auth::id(),
-            'tipo_alfajor' => $request->tipo_alfajor,
-            'cantidad' => $request->cantidad,
-        ]);
-
-        // 📩 Enviar correo a la administradora (a ti)
-        Mail::to('victoriaojeda@epet12smandes.edu.ar')->send(new NuevoPedido($pedido));
-
-        // 📩 Enviar correo al usuario
-        Mail::to(Auth::user()->email)->send(new ConfirmacionPedido($pedido));
-
-        return back()->with('success', 'Pedido realizado con éxito 🍫');
-    }
+    
 
     
 }

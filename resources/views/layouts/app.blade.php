@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Reino alfajor')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -23,6 +24,7 @@
                     <a href="{{ route('fabrica') }}" class="hover:text-amber-200 transition">Fábrica</a>
                     <a href="{{ route('catalogo') }}" class="hover:text-amber-200 transition">Catálogo</a>
                     <a href="{{ route('pedidos') }}" class="hover:text-amber-200 transition">Pedidos</a>
+                    <a href="{{ route('carrito.index') }}" class="hover:text-amber-200 transition">Carrito</a>
                     @if(session('authenticated'))
                         <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
@@ -45,6 +47,7 @@
                 <a href="{{ route('fabrica') }}" class="block py-2 hover:text-amber-200">Fábrica</a>
                 <a href="{{ route('catalogo') }}" class="block py-2 hover:text-amber-200">Catálogo</a>
                 <a href="{{ route('pedidos') }}" class="block py-2 hover:text-amber-200">Pedidos</a>
+                <a href="{{ route('carrito.index') }}" class="block py-2 hover:text-amber-200">Carrito</a>
                 @if(session('authenticated'))
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf

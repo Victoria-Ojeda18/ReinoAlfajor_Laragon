@@ -17,43 +17,54 @@
             </div>
         @endif
 
-        <!-- Formulario de nuevo pedido -->
-        <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md mb-12">
-            <h2 class="text-2xl font-bold text-amber-900 mb-6 text-center">Hacer un nuevo pedido</h2>
-            <form method="POST" action="{{ route('pedidos') }}">
-                @csrf
-                <div class="mb-6">
-                    <label class="block text-amber-900 font-semibold mb-2">Tipo de alfajor:</label>
-                    <select name="tipo_alfajor" required class="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                        <option value="Chocolate Blanco">Chocolate Blanco</option>
-                        <option value="Maicena">Maicena</option>
-                        <option value="Chocolate Negro">Chocolate Negro</option>
-                    </select>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-amber-900 font-semibold mb-2">Cantidad:</label>
-                    <input type="number" name="cantidad" min="1" required class="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="bg-amber-900 text-white px-8 py-3 rounded-lg hover:bg-amber-800 transition text-lg font-semibold w-full sm:w-auto">
-                        Hacer pedido
-                    </button>
-                </div>
-            </form>
-        </div>
-
         <!-- Lista de pedidos -->
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-4xl mx-auto">
             <h2 class="text-3xl font-bold text-amber-900 mb-6 text-center">Mis pedidos</h2>
             
             @forelse($pedidos as $pedido)
-                <div class="bg-white p-4 rounded-lg shadow-sm mb-4 flex justify-between items-center">
-                    <div>
-                        <span class="font-semibold text-amber-900">{{ $pedido->cantidad }} x {{ $pedido->tipo_alfajor }}</span>
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-amber-900">Pedido #{{ $pedido->id }}</h3>
+                            <p class="text-gray-600">{{ $pedido->created_at->format('d/m/Y H:i') }}</p>
+                        </div>
+                        <div>
+                            <span class="text-lg font-bold text-amber-900">Total: ${{ $pedido->productos->sum(function($producto) { return $producto->pivot->cantidad * $producto->pivot->precio; }) }}</span>
+                        </div>
                     </div>
-                    <div class="text-gray-600">
-                        {{ $pedido->created_at->format('d/m/Y H:i') }}
+
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-amber-900 mb-2">Productos:</h4>
+                        <ul class="list-disc list-inside">
+                            @foreach($pedido->productos as $producto)
+                                <li>{{ $producto->nombre }} (x{{ $producto->pivot->cantidad }})</li>
+                            @endforeach
+                        </ul>
                     </div>
+
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="font-semibold text-amber-900">Estado del pago:</span>
+                            @if($pedido->pagado)
+                                <span class="text-green-600">Pagado</span>
+                            @else
+                                <span class="text-red-600">Pendiente</span>
+                            @endif
+                        </div>
+                        <div>
+                            <span class="font-semibold text-amber-900">Estado del pedido:</span>
+                            <span class="text-blue-600">{{ ucfirst($pedido->estado) }}</span>
+                        </div>
+                    </div>
+
+                    @if(!$pedido->pagado)
+                        <div class="text-right mt-4">
+                            <form action="{{ route('pedidos.pagar', $pedido->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-400 transition">Pagar</button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
             @empty
                 <div class="bg-white p-8 rounded-xl shadow-sm text-center">
