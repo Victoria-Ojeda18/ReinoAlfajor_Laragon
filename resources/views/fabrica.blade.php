@@ -1,3 +1,7 @@
+    <!-- Vista para la página de la fábrica.
+    Muestra información sobre el proceso artesanal de elaboración de los alfajores
+    y los valores de la empresa. -->
+
 @extends('layouts.app')
 
 @section('content')

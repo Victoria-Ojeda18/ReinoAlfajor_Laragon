@@ -9,7 +9,7 @@ class CheckAuth
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!session()->has('authenticated')) {
+        if (! session()->has('authenticated')) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder.');
         }
 

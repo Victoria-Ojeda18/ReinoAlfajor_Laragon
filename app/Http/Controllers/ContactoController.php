@@ -3,17 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
+/**
+ * Controlador para gestionar el formulario de contacto.
+ */
 class ContactoController extends Controller
 {
-    // Mostrar formulario de contacto
+    /**
+     * Muestra el formulario de contacto.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('contacto');
     }
 
-    // Procesar el formulario
+    /**
+     * Procesa el envío del formulario de contacto.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function enviar(Request $request)
     {
         $request->validate([

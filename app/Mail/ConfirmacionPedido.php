@@ -20,6 +20,6 @@ class ConfirmacionPedido extends Mailable
     public function build()
     {
         return $this->subject('✅ Tu pedido está en camino')
-                    ->view('emails.confirmacion-pedido');
+            ->view('emails.confirmacion-pedido');
     }
 }

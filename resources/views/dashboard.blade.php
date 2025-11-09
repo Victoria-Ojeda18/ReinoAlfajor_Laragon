@@ -1,3 +1,8 @@
+
+    <!-- Vista para el panel de control del usuario.
+    Muestra un mensaje de bienvenida y otra información relevante.
+    Incluye el botón para cerrar sesión. -->
+
 @extends('layouts.app')
 
 @section('content')

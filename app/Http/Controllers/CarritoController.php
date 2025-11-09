@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Carrito;
-use App\Models\Producto;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para gestionar el carrito de compras.
+ */
 class CarritoController extends Controller
 {
+    /**
+     * Agrega un producto al carrito o actualiza la cantidad si ya existe.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function add(Request $request)
     {
         $request->validate([
@@ -32,20 +39,41 @@ class CarritoController extends Controller
             ]);
         }
 
+        return redirect()->route('catalogo')->with('success', 'Producto agregado al carrito');
     }
 
-            public function index()
+    /**
+     * Muestra el contenido del carrito de compras.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
     {
         $carrito = Carrito::where('user_id', Auth::id())->with('producto')->get();
+
         return view('carrito', compact('carrito'));
     }
 
+    /**
+     * Elimina un producto del carrito.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function remove($id)
     {
         Carrito::destroy($id);
+
         return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito');
     }
 
+    /**
+     * Actualiza la cantidad de un producto en el carrito.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $request->validate([

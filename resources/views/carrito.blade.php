@@ -1,3 +1,8 @@
+<!-- 
+    Vista para mostrar el carrito de compras del usuario.
+    Muestra los productos agregados, permite actualizar cantidades,
+    eliminar productos y proceder a finalizar la compra. -->
+
 @extends('layouts.app')
 
 @section('title', 'Carrito de Compras')

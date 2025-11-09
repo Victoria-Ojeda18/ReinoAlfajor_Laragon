@@ -20,6 +20,6 @@ class NuevoPedido extends Mailable
     public function build()
     {
         return $this->subject('📦 Nuevo pedido en Reino Alfajor')
-                    ->view('emails.nuevo-pedido');
+            ->view('emails.nuevo-pedido');
     }
 }

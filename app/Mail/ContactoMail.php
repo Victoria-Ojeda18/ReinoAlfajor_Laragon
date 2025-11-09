@@ -20,6 +20,6 @@ class ContactoMail extends Mailable
     public function build()
     {
         return $this->subject('Nueva Solicitud de Alfajores')
-                    ->view('emails.contacto');
+            ->view('emails.contacto');
     }
 }

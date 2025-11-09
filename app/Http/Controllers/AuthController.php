@@ -2,23 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Pedido;
-use App\Mail\NuevoPedido;           // ← nuevo
-use App\Mail\ConfirmacionPedido;    // ya lo tenías
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail; // ← nuevo
+
+/**
+ * Controlador para la autenticación y gestión de usuarios.
+ */
 class AuthController extends Controller
 {
-    // Mostrar formulario de registro
+    /**
+     * Muestra el formulario de registro.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showRegisterForm()
     {
         return view('auth.register');
     }
 
-    // Procesar registro
+    /**
+     * Procesa el registro de un nuevo usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function register(Request $request)
     {
         $request->validate([
@@ -34,16 +43,26 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
         return redirect('/pedidos')->with('success', '¡Bienvenido al Club del Alfajor!');
     }
 
-    // Mostrar formulario de login
+    /**
+     * Muestra el formulario de inicio de sesión.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Procesar login
+    /**
+     * Procesa el inicio de sesión de un usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -53,30 +72,38 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
             return redirect()->intended('/pedidos');
         }
 
         return back()->withErrors(['email' => 'Email o contraseña incorrectos.']);
     }
 
-    // Cerrar sesión
+    /**
+     * Cierra la sesión del usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 
-    // Mostrar la página de pedidos del usuario
+    /**
+     * Muestra la página de pedidos del usuario autenticado.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showPedidos()
     {
         // Carga los pedidos usando la relación 'pedidos' del modelo User
         $pedidos = Auth::user()->pedidos;
+
         return view('pedidos', compact('pedidos'));
     }
-
-    
-
-    
 }

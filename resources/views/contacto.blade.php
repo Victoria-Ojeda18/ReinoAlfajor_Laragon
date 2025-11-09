@@ -1,3 +1,8 @@
+<!-- 
+    Vista para la página de contacto.
+    Muestra información sobre la empresa, detalles de contacto
+    y enlaces para que los usuarios inicien sesión, se registren o vean sus pedidos. -->
+
 @extends('layouts.app')
 
 @section('title', 'Contacto - Reino Alfajor')

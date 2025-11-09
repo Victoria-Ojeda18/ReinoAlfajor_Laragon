@@ -1,3 +1,8 @@
+<!-- 
+    Vista para mostrar el catálogo de productos.
+    Recorre y muestra cada producto con su imagen, nombre, descripción y precio.
+    Incluye un formulario para agregar productos al carrito. -->
+
 @extends('layouts.app')
 
 @section('title', 'Catálogo de Productos')
